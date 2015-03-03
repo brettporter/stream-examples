@@ -4,6 +4,8 @@ var fs = require('fs');
 var path = process.argv[2];
 var method = process.argv[3];
 
+var port = process.env['PORT'] || 8000
+
 if (path === undefined) {
   path = 'health';
 }
@@ -12,7 +14,7 @@ if (method === undefined) {
   method = 'GET';
 }
 
-var url = 'http://localhost:8000/' + path;
+var url = 'http://localhost:' + port + '/' + path;
 var options = require('url').parse(url);
 options.method = method;
 

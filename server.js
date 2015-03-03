@@ -1,6 +1,8 @@
 var http = require('http');
 var fs = require('fs');
 
+var port = process.env['PORT'] || 8000
+
 var health = function(req, res, callback) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.write('ok');
@@ -206,4 +208,4 @@ http.createServer(function (req, res) {
     res.end();
     done(req);
   }
-}).listen(8000);
+}).listen(port);
