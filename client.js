@@ -16,6 +16,7 @@ if (method === undefined) {
 var partialWrite = process.env['PARTIAL_WRITE'] || false;
 var numRequests = process.env['NUM_REQUESTS'] || 1;
 var maxSockets = process.env['MAX_SOCKETS'];
+var disableAgent = process.env['DISABLE_AGENT'] || false;
 
 if (maxSockets !== undefined) {
   http.globalAgent.maxSockets = maxSockets;
@@ -24,6 +25,9 @@ if (maxSockets !== undefined) {
 var doRequest = function(count, callback) {
   var options = require('url').parse(url);
   options.method = method;
+  if (disableAgent) {
+    options.agent = false;
+  }
 
   console.log("Requesting", count, method, url);
   request = http.request(options, function(response) {
