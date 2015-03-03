@@ -15,7 +15,7 @@ if (method === undefined) {
 var options = require('url').parse(url);
 options.method = method;
 
-console.log("Requesting", options);
+console.log("Requesting", method, url);
 request = http.request(options, function(response) {
   response.on('end', function() {
     console.log("RESPONSE END");
