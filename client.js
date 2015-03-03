@@ -12,6 +12,8 @@ if (method === undefined) {
   method = 'GET';
 }
 
+var partialWrite = process.env['PARTIAL_WRITE'] || false;
+
 var options = require('url').parse(url);
 options.method = method;
 
@@ -54,7 +56,7 @@ request.on('end', function() {
 //   })
 // })
 
-request.setTimeout(1000);
+request.setTimeout(10000);
 request.on('timeout', function() {
   console.log("REQUEST TIMEOUT");
   request.abort();
@@ -65,9 +67,15 @@ request.on('error', function(error) {
 })
 
 if (method == 'PUT') {
-  console.log("Posting bigfile.img...");
-  var stream = fs.createReadStream('bigfile.img');
-  stream.pipe(request);
+  if (partialWrite) {
+    console.log("Partial write...");
+    request.write("ready...");
+    // no request.end();
+  } else {
+    console.log("Posting bigfile.img...");
+    var stream = fs.createReadStream('bigfile.img');
+    stream.pipe(request);
+  }
 }
 else {
   request.end();
