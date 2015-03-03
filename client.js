@@ -72,7 +72,7 @@ var doRequest = function(count, callback) {
   request.setTimeout(10000);
   request.on('timeout', function() {
     console.log(count, "REQUEST TIMEOUT");
-    request.abort();
+    this.abort();
   })
 
   request.on('error', function(error) {
