@@ -30,7 +30,7 @@ var doRequest = function(count, callback) {
   }
 
   console.log("Requesting", count, method, url);
-  request = http.request(options, function(response) {
+  var request = http.request(options, function(response) {
     response.on('end', function() {
       console.log(count, "RESPONSE END");
       callback(null);
