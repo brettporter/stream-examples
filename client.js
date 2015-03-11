@@ -17,6 +17,8 @@ var partialWrite = process.env['PARTIAL_WRITE'] || false;
 var numRequests = process.env['NUM_REQUESTS'] || 1;
 var maxSockets = process.env['MAX_SOCKETS'];
 var disableAgent = process.env['DISABLE_AGENT'] || false;
+var auth = process.env['AUTH'];
+var contentType = process.env['CONTENT_TYPE'];
 
 if (maxSockets !== undefined) {
   http.globalAgent.maxSockets = maxSockets;
@@ -24,9 +26,16 @@ if (maxSockets !== undefined) {
 
 var doRequest = function(count, callback) {
   var options = require('url').parse(url);
+  options.headers = {};
   options.method = method;
   if (disableAgent) {
     options.agent = false;
+  }
+  if (auth) {
+    options.headers['Authorization'] = auth;
+  }
+  if (contentType) {
+    options.headers['Content-Type'] = contentType;
   }
 
   console.log("Requesting", count, method, url);
